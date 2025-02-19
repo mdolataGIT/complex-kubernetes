@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+
+kind: Certificate
+metadata:
+  name: supercatonline-com-tls
+spec:
+  secretName: supercatonline-com
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: supercatonline.com
+  dnsNames:
+    - supercatonline.com
+    - www.supercatonline.com
