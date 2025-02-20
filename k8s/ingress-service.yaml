@@ -13,14 +13,14 @@ spec:
     - host: supercatonline.com
       http:
         paths:
-          - path: /*
+          - path: /?(.*)
             pathType: ImplementationSpecific
             backend:
               service:
                 name: client-cluster-ip-service
                 port:
                   number: 3000
-          - path: /api/*
+          - path: /api/?(.*)
             pathType: ImplementationSpecific
             backend:
               service:
@@ -30,14 +30,14 @@ spec:
     - host: www.supercatonline.com
       http:
         paths:
-          - path: /*
+          - path: /?(.*)
             pathType: ImplementationSpecific
             backend:
               service:
                 name: client-cluster-ip-service
                 port:
                   number: 3000
-          - path: /api/*
+          - path: /api/?(.*)
             pathType: ImplementationSpecific
             backend:
               service:
