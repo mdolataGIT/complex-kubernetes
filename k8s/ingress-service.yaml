@@ -3,28 +3,25 @@ kind: Ingress
 metadata:
   name: ingress-service
   annotations:
-    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/use-regex: "true"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
-  tls:
-    - hosts:
-        - supercatonline.com
-        - www.supercatonline.com
-      secretName: supercatonline-com
+  ingressClassName: nginx
   rules:
     - host: supercatonline.com
       http:
         paths:
           - path: /?(.*)
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: client-cluster-ip-service
                 port:
                   number: 3000
           - path: /api/?(.*)
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: server-cluster-ip-service
@@ -34,16 +31,21 @@ spec:
       http:
         paths:
           - path: /?(.*)
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: client-cluster-ip-service
                 port:
                   number: 3000
           - path: /api/?(.*)
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: server-cluster-ip-service
                 port:
                   number: 5000
+  tls:
+    - hosts:
+        - supercatonline.com
+        - www.supercatonline.com
+      secretName: supercatonline-com
